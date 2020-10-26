@@ -39,3 +39,4 @@ def ppois(x, l):
     for i in range(0, x+1):
         c = c + (math.e**(-l)* l**i)/factorial(i)
     return round(c, 7)
+
