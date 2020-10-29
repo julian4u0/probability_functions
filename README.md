@@ -9,3 +9,5 @@
 * Exponential
 * Gamma
 * Normal
+
+Made by [Julian](https://github.com/julian4u0)
