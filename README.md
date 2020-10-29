@@ -1,3 +1,11 @@
-# probability_functions
+# Probability Functions Shiny Interactive App
 
-only Binomial and Poisson cumulative and mass distribution functions at the moment
+### Capture of interface
+![Capture](image.png "Title")
+
+### Functions Available
+* Binomial
+* Poisson
+* Exponential
+* Gamma
+* Normal
