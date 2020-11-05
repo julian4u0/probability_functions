@@ -66,6 +66,24 @@ server <- function(input, output) {
                     HTML(paste(h4("Expected value =  ", round(1/p, 7), "\n")),
                          paste(h4("P( X ≤ ", ac, " ) =  ", ar , "\n")))
                     
+                }, 
+                "gam" = {
+                    al <- input$alpha
+                    be <- input$beta
+                    ac <- input$ac
+                    ar <- round(pgamma(ac, shape = al, scale= be), 8)
+                    HTML(paste(h4("Expected value =  ", round(al*be, 7), "\n")),
+                         paste(h4("P( X ≤ ", ac, " ) =  ", ar , "\n")))
+                    
+                }, 
+                "nor" = {
+                    mean <- input$mean
+                    sdev <- input$sdev
+                    ac <- input$ac
+                    ar <- round(pnorm(ac, mean = mean, sd= sdev), 8)
+                    HTML(paste(h4("Expected value =  ", round(mean, 7), "\n")),
+                         paste(h4("P( X ≤ ", ac, " ) =  ", ar , "\n")))
+                    
                 })
     }
     output$acum_par <-  renderUI({
@@ -75,7 +93,7 @@ server <- function(input, output) {
                 "ac",
                 "P(X ≤ c)",
                 min = 0,
-                max = 300,
+                max = 200,
                 value = 4
             )
         }
@@ -124,6 +142,24 @@ server <- function(input, output) {
                 max = 1,
                 step = 0.01,
                 width = NULL
+            ),
+            "gam" = numericInput(
+                "alpha",
+                "α parameter",
+                3,
+                min = 0,
+                max = 100,
+                step = 0.01,
+                width = NULL
+            ),
+            "nor" = numericInput(
+                "mean",
+                "Mean μ",
+                3,
+                min = 0,
+                max = 100,
+                step = 0.01,
+                width = NULL
             )
         )
         
@@ -139,6 +175,24 @@ server <- function(input, output) {
                 min = 0,
                 max = 300,
                 step = 1,
+                width = NULL
+            ),
+            "gam" = numericInput(
+                "beta",
+                "β parameter",
+                2,
+                min = 0,
+                max = 100,
+                step = 0.01,
+                width = NULL
+            ),
+            "nor" = numericInput(
+                "sdev",
+                "Standard Deviation σ",
+                2,
+                min = 0,
+                max = 100,
+                step = 0.01,
                 width = NULL
             )
         )
@@ -187,6 +241,36 @@ server <- function(input, output) {
                 
                 range <- qexp(0.999, rate=p)
                 curve(dexp(x, rate = p), xlim= c(0, range), ylim = c(0, p))
+                polygon(cord.x,cord.y,col='green')
+                
+            },
+            "gam" = {
+                ac <- input$ac 
+                al <- input$alpha 
+                be <- input$beta 
+                cord.x <- c(-0)
+                cord.x <- c(0,seq(0,ac,0.001),ac) 
+                cord.y <- c(0,dgamma(seq(0,ac,0.001), shape = al, scale= be),0) 
+                
+                range <- qgamma(0.999, shape = al, scale= be)
+                curve(dgamma(x, shape = al, scale= be), xlim= c(0, range))
+                polygon(cord.x,cord.y,col='green')
+                
+            },
+            "nor" = {
+                ac <- input$ac 
+                sdev <- input$sdev 
+                mean <- input$mean 
+                
+                range <- qnorm(0.999, mean = mean, sd = sdev)
+                
+                smalltail <- mean-range
+                
+                cord.x <- c(smalltail,seq(smalltail,ac,0.001),ac) 
+                cord.y <- c(0,dnorm(seq(smalltail,ac,0.001), mean = mean, sd = sdev),0) 
+                
+                
+                curve(dnorm(x, mean = mean, sd = sdev), xlim= c(mean-range, mean + range))
                 polygon(cord.x,cord.y,col='green')
                 
             }
