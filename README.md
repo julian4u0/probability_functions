@@ -1,7 +1,7 @@
 # Probability Functions Shiny Interactive App
 
-### Capture of interface
-![Capture](image.png "Title")
+### Screenshot of interface
+![Screenshot](image.png "Title")
 
 ### Functions Available
 * Binomial
