@@ -3,7 +3,7 @@
 ### Screenshot of interface
 ![Screenshot](image.png "Title")
 
-### Functions Available
+### Available Functions 
 * Binomial
 * Poisson
 * Exponential
